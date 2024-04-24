@@ -1,0 +1,4 @@
+api_movie_get_movies:
+    path: /api/movies
+    controller: App\Modules\Core\Controller\Api\MovieController::getMovies
+    methods: GET

@@ -1,0 +1,17 @@
+security:
+    enable_authenticator_manager: true
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        api:
+            pattern: ^/api(?!/public)(?!/docs)
+            stateless: true
+
+    access_control:
+        - { path: ^/api/auth, roles: PUBLIC_ACCESS }
+        - { path: ^/api/public, roles: PUBLIC_ACCESS } # PUBLIC
+        - { path: ^/api/docs, roles: PUBLIC_ACCESS }
+
+    role_hierarchy:
+        ROLE_SUPER_ADMIN: ROLE_ADMIN

@@ -1,0 +1,17 @@
+header:before {
+    background-color: black;
+}
+
+#swagger-ui.api-platform .info .title {
+    color: black;
+}
+
+.swagger-ui .wrapper {
+    margin-bottom: 35px;
+}
+
+header #logo img {
+    max-height: 25px;
+    width: auto;
+    background-color: unset;
+}

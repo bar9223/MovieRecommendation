@@ -1,0 +1,20 @@
+.js-captcha-block {
+  .captcha-block {
+    display: flex;
+    align-items: center;
+
+    img {
+      max-width: 50%;
+      height: auto;
+    }
+
+  }
+
+  .js-refresh-captcha {
+    font-size: 11px;
+    color: darken($movieColor, 25%);
+    font-weight: bold;
+    cursor: pointer;
+  }
+}
+

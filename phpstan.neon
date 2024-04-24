@@ -1,0 +1,26 @@
+includes:
+	- vendor/phpstan/phpstan-symfony/extension.neon
+	- vendor/phpstan/phpstan-symfony/rules.neon
+parameters:
+	level: 6
+	checkMissingIterableValueType: false
+	checkGenericClassInNonGenericObjectType: false
+	paths:
+		- src
+		- tests
+	ignoreErrors:
+		- '/Call to an undefined method Traversable<\(int\|string\), mixed>::current/'
+		- '/Call to an undefined method Traversable<\(int\|string\), mixed>::uasort/'
+		- '/Call to an undefined method Symfony\\Contracts\\Translation\\TranslatorInterface::setLocale\(\)/'
+		- '#supplied for foreach, only iterables are supported#'
+		- '#does not accept Doctrine\\ORM\\EntityRepository#'
+		- '#Property App\\Entity\\[a-zA-Z0-9]+::\$[a-zA-Z0-9]+ is never written, only read#'
+		- '#Property App\\Entity\\[a-zA-Z0-9]+::\$[a-zA-Z0-9]+ is never read, only written#'
+	excludePaths:
+		- src/Utils/Helper/InWords.php
+		- src/Utils/CamelCaseNamingStrategy.php
+		- src/Utils/Validator/*.php
+		- src/Service/TinCheckerService.php
+		- src/Controller/Admin
+		- src/Utils/PhpImap/*.php
+		- config/*.php

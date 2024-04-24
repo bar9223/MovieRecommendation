@@ -1,0 +1,3 @@
+core_module_routes_path:
+  resource: '../../../src/Modules/Core/Resources/config/route'
+  type: directory

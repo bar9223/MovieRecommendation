@@ -1,0 +1,126 @@
+doctrine:
+    dbal:
+        # configure these for your database server
+        driver: 'pdo_mysql'
+        server_version: 'mariadb-10.4.22'
+        charset: utf8mb4
+        default_table_options:
+            charset: utf8mb4
+            collate: utf8mb4_unicode_ci
+        types:
+            movie_filter_type: App\Utils\DBAL\Types\MovieFilterType
+        mapping_types:
+            enum: string
+        url: '%env(resolve:DATABASE_URL)%'
+    orm:
+        default_entity_manager: default
+        auto_generate_proxy_classes: true
+        naming_strategy: app.naming_strategy.camel_case_naming_strategy
+        auto_mapping: true
+        mappings:
+            App:
+                is_bundle: false
+                type: attribute
+                dir: '%kernel.project_dir%/src/Entity'
+                prefix: 'App\Entity'
+                alias: App
+        dql:
+            numeric_functions:
+                acos: DoctrineExtensions\Query\Mysql\Acos
+                cos: DoctrineExtensions\Query\Mysql\Cos
+                point: CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Point
+                radians: DoctrineExtensions\Query\Mysql\Radians
+                sin: DoctrineExtensions\Query\Mysql\Sin
+                x: CrEOF\Spatial\ORM\Query\AST\Functions\MySql\X
+                y: CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Y
+                group_concat: DoctrineExtensions\Query\Mysql\GroupConcat
+            string_functions:
+                JSON_CONTAINS: Scienta\DoctrineJsonFunctions\Query\AST\Functions\Mysql\JsonContains
+                JSON_LENGTH: Scienta\DoctrineJsonFunctions\Query\AST\Functions\Mysql\JsonLength
+                REGEXP_REPLACE: App\Utils\DBAL\Functions\RegexpReplace
+                match: DoctrineExtensions\Query\Mysql\MatchAgainst
+                MONTH: DoctrineExtensions\Query\Mysql\Month
+                YEAR: DoctrineExtensions\Query\Mysql\Year
+                DAY: DoctrineExtensions\Query\Mysql\Day
+                DATE: DoctrineExtensions\Query\Mysql\Date
+                DATEDIFF: DoctrineExtensions\Query\Mysql\DateDiff
+                IF: DoctrineExtensions\Query\Mysql\IfElse
+                MD5: DoctrineExtensions\Query\Mysql\Md5
+        filters:
+            App\Utils\Doctrine\Filters\BetweenFilter:
+                class: App\Utils\Doctrine\Filters\BetweenFilter
+                enabled: false
+            App\Utils\Doctrine\Filters\EqualFilter:
+                class: App\Utils\Doctrine\Filters\EqualFilter
+                enabled: false
+            App\Utils\Doctrine\Filters\GreaterThanEqualFilter:
+                class: App\Utils\Doctrine\Filters\GreaterThanEqualFilter
+                enabled: false
+            App\Utils\Doctrine\Filters\GreaterThanFilter:
+                class: App\Utils\Doctrine\Filters\GreaterThanFilter
+                enabled: false
+            App\Utils\Doctrine\Filters\LessThanEqualFilter:
+                class: App\Utils\Doctrine\Filters\LessThanEqualFilter
+                enabled: false
+            App\Utils\Doctrine\Filters\LessThanFilter:
+                class: App\Utils\Doctrine\Filters\LessThanFilter
+                enabled: false
+            App\Utils\Doctrine\Filters\LikeFilter:
+                class: App\Utils\Doctrine\Filters\LikeFilter
+                enabled: false
+            App\Utils\Doctrine\Filters\NotEqualFilter:
+                class: App\Utils\Doctrine\Filters\NotEqualFilter
+                enabled: false
+            App\Utils\Doctrine\Filters\NotLikeFilter:
+                class: App\Utils\Doctrine\Filters\NotLikeFilter
+                enabled: false
+
+services:
+    # Doctrine Extension listeners to handle behaviors
+    gedmo.listener.tree:
+        class: Gedmo\Tree\TreeListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+
+    Gedmo\Translatable\TranslatableListener:
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+            - [ setDefaultLocale, [ "%locale%" ] ]
+            - [ setTranslationFallback, [ false ] ]
+
+    gedmo.listener.timestampable:
+        class: Gedmo\Timestampable\TimestampableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+
+    gedmo.listener.sluggable:
+        class: Gedmo\Sluggable\SluggableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+
+    gedmo.listener.sortable:
+        class: Gedmo\Sortable\SortableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+
+    Gedmo\Loggable\LoggableListener:
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+
+    Gedmo\Blameable\BlameableListener:
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]

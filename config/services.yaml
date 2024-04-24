@@ -1,0 +1,88 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: 'en'
+    container.dumper.inline_factories: true
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    _instanceof:
+        App\Component\Controller\ControllerInterface:
+            tags: [ 'controller.service_arguments' ]
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude:
+            - '../src/Entity/'
+            - '../src/Component/DTO/'
+            - '../src/Component/Form/'
+            - '../src/Kernel.php'
+            - '../src/Modules/*/DTO/'
+            - '../src/Modules/*/Enum/'
+            - '../src/Module/*/DTO/'
+            - '../src/Module/*/Enum/'
+            - '../src/Module/*/App/*/*/DTO'
+            - '../src/Module/Api/v1/*/*/DTO' # dto objects
+            - '../src/Module/Api/v1/*/*/Model' #place for builders, factories etc.
+            - '../src/Utils/DBAL/'
+            - '../src/Utils/Enum/'
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+    # Naming Strategy
+    app.naming_strategy.camel_case_naming_strategy:
+        class: App\Utils\CamelCaseNamingStrategy
+
+    app.cache_redis_provider:
+        class: \Redis
+        factory: [ 'Symfony\Component\Cache\Adapter\RedisAdapter', 'createConnection' ]
+        arguments:
+            - '%env(APP_REDIS_HOST)%'
+            - { retry_interval: 2, timeout: 10 }
+
+    #listeners
+    app.event_listener.entity_change_listener:
+        class: App\Modules\Core\Event\Listener\EntityChangeListener
+        tags:
+            - { name: doctrine.event_listener, event: postPersist, priority: 0, lazy: true }
+            - { name: doctrine.event_listener, event: postUpdate, priority: 0, lazy: true }
+            - { name: doctrine.event_listener, event: preRemove, priority: 0, lazy: true }
+
+    # argument injections
+    App\Service\CacheService:
+        arguments:
+            - '@app.cache_redis_provider'
+
+    App\Modules\Core\Cli\SyncControllerGuardsCommand:
+        arguments:
+            - !tagged_iterator app.security.controller_guards
+
+    App\Modules\Core\Cli\CronTabGenerateCommand:
+        arguments:
+            - !tagged_iterator app.command.cronjob
+
+    Doctrine\Migrations\Version\DbalMigrationFactory: ~
+    App\Utils\DBAL\Migrations\MigrationFactoryDecorator:
+        decorates: Doctrine\Migrations\Version\DbalMigrationFactory
+        arguments:
+            $migrationFactory: '@App\Utils\DBAL\Migrations\MigrationFactoryDecorator.inner'
+            $entityService: '@App\Service\EntityService'
+
+imports:
+    - { resource: 'app.config.local.yaml' }
+
+twig:
+    debug: "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    form_themes:
+        - 'forms/fields.html.twig'

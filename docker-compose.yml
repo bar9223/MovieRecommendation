@@ -1,0 +1,72 @@
+version: '3.7'
+services:
+  web:
+    container_name: "${APP_DOCKER_CONTAINER_NAME_WEB}"
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 6144M
+    depends_on:
+      - redis
+      - db
+    restart: on-failure
+    ports:
+      - "${APP_DOCKER_PORTS_WEB}"
+    volumes:
+      - .:/var/www/app
+      - ./docker/php.ini:/usr/local/etc/php/conf.d/custom_app_config.ini
+    build:
+      context: .
+      dockerfile: docker/movie_web/Dockerfile
+    environment:
+      - APP_DOCKER_DB_USER=${APP_DOCKER_DB_USER}
+      - APP_DOCKER_DB_PASSWORD=${APP_DOCKER_DB_PASSWORD}
+      - APP_DOCKER_DB_DATABASE=${APP_DOCKER_DB_DATABASE}
+      - APP_DOCKER_CONTAINER_NAME_DB=${APP_DOCKER_CONTAINER_NAME_DB}
+  db:
+    image: "mariadb:10.4"
+    container_name: "${APP_DOCKER_CONTAINER_NAME_DB}"
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2048M
+    restart: on-failure
+    ports:
+      - "${APP_DOCKER_PORT_DB}:3306"
+    volumes:
+      - database_data:/var/lib/mysql
+      - ./docker/movie_db/custom.cnf:/etc/mysql/conf.d/custom.cnf
+    environment:
+      MARIADB_ROOT_PASSWORD: "${APP_DOCKER_DB_ROOT_PASSWORD}"
+      MARIADB_DATABASE: "${APP_DOCKER_DB_DATABASE}"
+      MARIADB_USER: "${APP_DOCKER_DB_USER}"
+      MARIADB_PASSWORD: "${APP_DOCKER_DB_PASSWORD}"
+      TZ: "Europe/Warsaw"
+  redis:
+    image: redis:6.2.5-alpine
+    container_name: "${APP_DOCKER_CONTAINER_NAME_REDIS}"
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1024M
+    restart: on-failure
+  rabbitmq:
+    image: rabbitmq:3.11.13-management-alpine
+    container_name: "${APP_DOCKER_CONTAINER_NAME_RABBIT}"
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1024M
+    ports:
+      - "${APP_DOCKER_PORT_RABBIT_PANEL}:15672"
+networks:
+  default:
+    name: ${APP_DOCKER_NETWORK_NAME}
+volumes:
+  database_data:
+    name: "${APP_DOCKER_CONTAINER_NAME_DB}"

@@ -1,0 +1,17 @@
+parameters:
+    app.urls:
+        self: 'http://localhost:7071/'
+        front: 'http://localhost:72/'
+    app.jwt_key: '%env(APP_JWT_SECRET)%'
+    app.jwt_algorithm: 'HS256'
+    app.security_encrypt_hash: '%env(APP_SECURITY_ENCRYPT_HASH)%'
+    app.socket_server: '%env(APP_SOCKET_URL)%'
+    app.swoole_server: '%env(APP_SWOOLE_URL)%'
+    app.static_files_path: 'resources/files'
+    app.mailer_local:
+        dsn: 'smtp://mailcatcher:1025'
+        username: ''
+    app.movie_email: "contact@movie.pl"
+    app.test.envs: '%env(APP_TEST_ENVS)%'
+
+

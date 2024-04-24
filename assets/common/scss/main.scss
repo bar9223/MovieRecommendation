@@ -1,0 +1,252 @@
+.admin-navbar {
+
+  .app-env {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 9px;
+    padding: 1.5px 3px;
+    background: rgb(245, 78, 66);
+    cursor: default;
+
+    &.prod {
+      display: none !important;
+    }
+    &.test {
+      background: rgb(245, 176, 66);
+    }
+    strong {
+      text-transform: uppercase;
+    }
+  }
+}
+
+.admin-wrapper {
+  width: 100%;
+  margin-top: 60px;
+
+  //a {
+  //  color: darken($movieColor, 25%);
+  //  &:hover {
+  //    text-decoration: none;
+  //    color: darken($movieColor, 15%) !important;
+  //  }
+  //}
+
+  .fa,.fas, .fab {
+    min-width: 25px;
+    text-align: center;
+    font-size: 80%;
+  }
+
+  .admin-content {
+    padding: 35px;
+    width: 100%;
+  }
+
+  .submit-button-block {
+    width: 100%;
+    display: block;
+  }
+}
+
+
+.app-header {
+  margin-bottom: 15px;
+  font-size: 21px;
+}
+
+.ajax-table {
+  tbody {
+    font-size: 80%;
+  }
+}
+
+ul {
+  padding-left: 15px;
+}
+
+.btn-movie-action {
+  @extend .btn;
+  background: $movieColor;
+  color: white;
+  padding: 2px 10px;
+  font-size: 13px;
+
+  &:hover,&:focus {
+    color: white;
+    background: darken($movieColor, 10%);
+  }
+
+  &.method-delete {
+    color: white;
+    @extend .btn-danger;
+  }
+
+  &.sm {
+    padding: 2px 3px;
+  }
+}
+
+.admin-content {
+  form {
+
+    label {
+      margin-top: 10px;
+      font-size: 80%;
+      font-weight: bold;
+    }
+    .btn-form-save {
+      width: 100%;
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    > div {
+      > div {
+        width: 49%;
+        margin-right: 1%;
+        display: inline-block;
+        float:left;
+
+        &:last-of-type {
+          max-width: 100%;
+          width: 100%;
+          display: block;
+        }
+      }
+
+    }
+  }
+
+  .translate-custom-form {
+    form {
+      > div {
+        > div {
+          width: 100%;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+
+.dataTables_wrapper
+{
+  .dataTables_filter {
+    display: none;
+  }
+
+  .dataTable {
+    thead{
+      input, select {
+        color: darken($movieColor, 15%);
+        font-weight:bold;
+      }
+    }
+  }
+
+  .btn-movie-action {
+    font-size: 10px;
+    margin: 1px;
+  }
+}
+
+.table-order-items {
+  font-size: 12.5px;
+}
+
+.toast-container {
+  position: fixed;
+  top: 65px;
+  left: 35px;
+  z-index: 3000;
+
+  .toast {
+    width: 20vw;
+    background-color: white;
+
+    .toast-success {
+      background-color: $green;
+      color: white;
+    }
+
+    .toast-fail {
+      background-color: $red;
+      color: white;
+    }
+  }
+}
+
+.typeahead__list {
+  font-size:11.5px;
+
+  .row {
+    margin-left: 0;
+    margin-right: 0;
+
+    span {
+      margin-right: 3.5px;
+    }
+  }
+}
+
+.js-icon {
+  background: $movieColor;
+  color: black;
+  border-radius: 5px;
+  padding: 3.5px;
+  font-size: 14px;
+
+  &.trial {
+    background: #ffff00;
+  }
+
+  .text {
+    font-weight: bold;
+    font-style: italic;
+  }
+}
+
+.license-expired {
+  color: grey;
+  opacity: 0.6;
+}
+
+.app-list {
+  &-true {
+    color: $trueColor;
+  }
+  &-false {
+    color: $falseColor;
+  }
+  &-label {
+    background: $movieColor;
+    border-radius: 5px;
+    padding: 3.5px;
+    font-size: 14px;
+    color: black;
+
+    &.role-admin {
+      background: $adminColor;
+      color: white;
+    }
+  }
+}
+
+.voucher-input-group {
+  display: block;
+  width: 100% !important;
+
+  label {
+    float: left;
+    display: block;
+    width: 100%;
+  }
+  select, input {
+    width: 33.3% !important;
+    float: left;
+    display: inline-block;
+  }
+}

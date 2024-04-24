@@ -1,0 +1,40 @@
+{
+    "name": "MovieAdmin",
+    "version": "4.6.0",
+    "description": "Admin panel packages",
+    "directories": {
+        "test": "tests"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "watch": "encore dev --watch",
+        "build": "encore production --progress"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@symfony/webpack-encore": "^1.8.2",
+        "imports-loader": "^3.1.1",
+        "jquery-toast-plugin": "^1.3.2",
+        "jquery-typeahead": "^2.11.1",
+        "jshint": "^2.13.6",
+        "node-sass": "^7.0.3",
+        "sass-loader": "^12.6.0"
+    },
+    "dependencies": {
+        "@grapoza/vue-tree": "^4.0.3",
+        "@vueform/multiselect": "^2.6.2",
+        "axios": "^0.24.0",
+        "bootstrap": "^4.6.2",
+        "chart.js": "^2.9.3",
+        "datatables": "^1.10.18",
+        "datatables.net-bs4": "^1.13.4",
+        "datatables.net-buttons-bs4": "^1.5.6",
+        "jquery": "^3.6.4",
+        "popper.js": "^1.15.0",
+        "vue": "^3.2.47",
+        "vue-axios": "^3.5.2",
+        "vue-loader": "^16.8.3"
+    }
+}

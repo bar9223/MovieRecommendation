@@ -1,0 +1,21 @@
+app_index:
+  path: /
+  controller: App\Modules\Core\Controller\AppController::getIndex
+  methods: GET
+
+app_catpcha:
+  path: /captcha
+  controller: App\Modules\Core\Controller\AppController::getCaptcha
+  methods: GET
+
+# swagger
+
+app.swagger_ui:
+  path: /api/docs/{area}
+  methods: GET
+  defaults: { _controller: nelmio_api_doc.controller.swagger_ui, area: default }
+
+# modules
+
+modules_routes_config:
+  resource: './routes/app/modules.yaml'

@@ -1,0 +1,28 @@
+{% extends '@!NelmioApiDoc/SwaggerUi/index.html.twig' %}
+
+    {% block meta %}
+        <meta charset="UTF-8">
+        <meta name="robots" content="noindex,nofollow">
+        <meta name="googlebot" content="noindex">
+    {% endblock meta %}
+
+    {% block header_block %}
+        <header>
+            {% block header %}
+            {% endblock header %}
+        </header>
+    {% endblock header_block %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/docs.css') }}">
+{% endblock stylesheets %}
+
+{% block swagger_initialization %}
+    <script type="text/javascript">
+        window.onload = loadSwaggerUI({
+            defaultModelsExpandDepth: -1,
+            deepLinking: true,
+        });
+    </script>
+{% endblock %}
