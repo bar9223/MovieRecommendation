@@ -1,5 +1,3 @@
-MOVIE - symfony based application
-
 # Docker setup instructions
 
 1. clone the `MovieRecommendation` repository
