@@ -19,12 +19,15 @@ final class GetMoviesHandler
     public function __invoke(GetMoviesQuery $query): ?array
     {
         $filter = (string) $query->request->get('filter', '');
+        $findBy = [
+            'deleted' => null,
+        ];
 
         return match ($filter) {
             MovieFilterType::RANDOM => $this->movieRepository->getRandomMovies(),
             MovieFilterType::W_AND_EVEN => $this->movieRepository->getMoviesStartingWithWAndEvenLength(),
             MovieFilterType::MORE_WORDS => $this->movieRepository->getMoviesWithMoreThanOneWord(),
-            default => $this->movieRepository->findAll(),
+            default => $this->movieRepository->findBy($findBy),
         };
     }
 }
